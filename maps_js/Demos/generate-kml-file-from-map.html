@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
     <title>HERE Maps API Example: KML Placemark Generator</title>
     <!-- Set up constants such as APP ID and token -->
     <script type="text/javascript" src="libs/hereAppIdAndToken.js"></script>
@@ -9,31 +10,24 @@
     <script type="text/javascript" src="libs/jQl.min.js"></script>
     <!-- Asynchronously the HERE Maps API for  JavaScript -->
     <script type="text/javascript" src="libs/hereAsyncLoader.js"
-    	id="HereMapsLoaderScript" /*This identifies the Loader Script */
-    	data-params="maps" /*These are the features to load */
-    	data-map-container="mapContainer"  /*This is the name of DOM element that holds the map */
-    	data-callback="afterHereMapLoad" /*This is the name of the callback method */
+    	id="HereMapsLoaderScript" 
+    	data-params="maps" 
+    	data-map-container="mapContainer"
+    	data-callback="afterHereMapLoad"
     	data-libs="kml-generator" >
-    </script>    
+    </script>
     <link href='./css/prism.css' rel='stylesheet'>
 	<script type='text/javascript' src='libs/prism.js' ></script>
-    
-    <link rel="icon" href="http://here.com/favicon.ico">
-    <link href="http://developer.here.com/html/css/main.css" rel="stylesheet">
+
+    <link rel="icon" href="http://here.com/favicon.ico"/>
+    <link href="http://developer.here.com/html/css/main.css" rel="stylesheet" />
 </head>
 <body>
 	<h1>KML Placemark Generator</h1>
 	<div style="width:500px;margin:1em" >
 		<p>This tool is able to convert an arbitrary HERE Map to KML. </p>
-
-
     	<div id="mapContainer" style="width:540px; height:334px;"></div>
-
-
-
-
 	</div>
-
 
      <div style="position:absolute; width:540px; top:30px; left:600px;">
       lat: <span id="lat">?</span> long : <span id="lng"></span>?<br />
@@ -59,15 +53,15 @@
       <label for="lineStyleURL">line styleURL</label> <input id="lineStyleURL" /><br />
       <input id="button4" type="button" value="Create Line from Waypoints" onclick=
       "createLineFromWaypoints( currentWaypoints)" /><br />
-      
+
       <hr/>
       <textarea id="kmloutput" cols="50" rows="5"></textarea><br />
         <input id="readKML" value="Read KML" type="button" />
     	<input id="addKML" value="Add KML" type="button" />
     </div>
-    
-    
-    
+
+
+
   </div>
   <div style="width:500px;margin:1em">
 	  	<strong>KML</strong>
@@ -84,7 +78,8 @@
 
 
 
-<script  type="text/javascript" >
+<script id="example-code" data-categories="kml" type="text/javascript" >
+//<![CDATA[
 function afterHereMapLoad(map){
 	this.map = map;
 	map.set('zoomLevel', 5);
@@ -191,7 +186,9 @@ function addMarker(markerData) {
 	}
 
 	// When the marker is clicked, the edit boxes must be refreshed.
-	marker.addListener("click" ,  function(evt) {
+	var TOUCH = nokia.maps.dom.Page.browser.touch,
+		CLICK = TOUCH ? "tap" : "click";
+	marker.addListener(CLICK ,  function(evt) {
 		currentMarker = evt.target;
 		setMarkerData(currentMarker);
 	});
@@ -347,7 +344,7 @@ function  parseKml(kml){
 				coords = coords.substring(coords.search(",")+ 1);
 			var lat = coords.substring( 0 , coords.search(","));
 			try {
-				waypoints.push( 
+				waypoints.push(
 					new nokia.maps.geo.Coordinate(parseFloat(lat), parseFloat(lng)));
 			} catch(err) {}
 			coords = coords.substring(coords.search("\n")+ 1);
@@ -403,10 +400,7 @@ function buttonSetUp(){
 	});
 
 }
-
-
-
-
+//]]>
 </script>
 </body>
 </html>

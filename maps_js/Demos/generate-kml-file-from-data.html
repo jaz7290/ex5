@@ -1,25 +1,26 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
     <title>HERE Maps API Example: KML Placemark Generator</title>
     <!-- Set up constants such as APP ID and token -->
     <script type="text/javascript" src="libs/hereAppIdAndToken.js"></script>
     <!-- Bootstrap jQuery Library -->
     <script type="text/javascript" src="libs/jQl.min.js"></script>
-    
+
     <!-- Asynchronously the HERE Maps API for  JavaScript -->
     <script type="text/javascript" src="libs/hereAsyncLoader.js"
-    	id="HereMapsLoaderScript" /*This identifies the Loader Script */
-    	data-params="maps,datarendering" /*These are the features to load */
-    	data-map-container="mapContainer"  /*This is the name of DOM element that holds the map */
-    	data-callback="afterHereMapLoad" /*This is the name of the callback method */
+    	id="HereMapsLoaderScript"
+    	data-params="maps,datarendering"
+    	data-map-container="mapContainer"
+    	data-callback="afterHereMapLoad"
     	data-libs="kml-generator" >
     </script>
     <link href='./css/prism.css' rel='stylesheet'>
 	<script type='text/javascript' src='libs/prism.js' ></script>
-    <link rel="icon" href="http://here.com/favicon.ico">
-    <link href="http://developer.here.com/html/css/main.css" rel="stylesheet">
+    <link rel="icon" href="http://here.com/favicon.ico"/>
+    <link href="http://developer.here.com/html/css/main.css" rel="stylesheet" />
 </head>
 <body>
 	<h1>KML Placemark Generator</h1>
@@ -78,7 +79,7 @@
 		Alternatively: <label for="rGeoAttemptLng">Latitiude/Longitude (if known):</label><br />
 		<input id="rGeoAttemptLat" type="text" size="10" value="" />
 		<input id="rGeoAttemptLng" type="text" size="10" value="" /><br />
-	<div style="height: 2.0em; font-size: 2em; color: blue;">3. Run Geocoder: 	
+	<div style="height: 2.0em; font-size: 2em; color: blue;">3. Run Geocoder:
 		<input id="geocodeData" type="button" value="Generate KML"  />
 	</div>
 </div>
@@ -87,27 +88,32 @@
     <div id="kmlData" style="position:absolute; width:540px; top:30px; left:600px; color: rgb(102, 102, 102); background-color: #f5f2f0;"></div>
 
     <div id="src"><br/><p>Code:</p></div>
-<script  type="text/javascript" >
-function afterHereMapLoad(map){
+<script id="example-code" data-categories="kml" type="text/javascript" >
+//<![CDATA[
+
+
+function (){
+
+this.afterHereMapLoad = function(map){
 	this.map = map;
 	map.set('zoomLevel', 12);
     map.set('center', [52.51, 13.4]);
 	this.infoBubbles = new nokia.maps.map.component.InfoBubbles();
  	map.components.add(infoBubbles);
  	addKMLGenerator (map);
- 	
- 	
+
+
  	rightMoveSetUp();
  	chinaSetUp();
  	finlandSetUp();
  	tabSetUp();
  	csvSetUp();
- 	
+
  	geocodeButtonSetUp();
- 	
+
 }
 
- function addKMLGenerator (map){	
+ this.addKMLGenerator = function(map){
  	kmlGenerator = new KMLGenerator(document.getElementById("kmlData"),{
  		datasource : "$data",
  		id :"id",
@@ -115,9 +121,9 @@ function afterHereMapLoad(map){
 		name: "name",
 		address: "address",
 		styleURL: "styleURL" });
- 	map.addComponent(kmlGenerator); 
+ 	map.addComponent(kmlGenerator);
 }
- 
+
 
 
 // Standard Library for spliting up Comma Delimited Texts.
@@ -134,14 +140,14 @@ String.prototype.splitCSV = function(sep) {
 	return foo;
 };
 
-function geocodeButtonSetUp(){
+this.geocodeButtonSetUp = function(){
 	$("#geocodeData" ).click(function() {
 		map.objects.clear();
 		doSplit ();
 	});
 }
 
-function rightMoveSetUp(){
+this.rightMoveSetUp = function(){
 	$("#rightMoveSetUp" ).click(function() {
 		$('#headerStart').val("#DEFINITION#\\n");
 		$('#dataStart').val("#DATA#\\n");
@@ -163,7 +169,7 @@ function rightMoveSetUp(){
 //
 //
 //
-function finlandSetUp(){
+this.finlandSetUp = function(){
 	$("#finlandSetUp" ).click(function() {
 		$('#headerStart').val("");
 		$('#dataStart').val("\\n");
@@ -184,7 +190,7 @@ function finlandSetUp(){
 //
 //
 //
-function chinaSetUp(){
+this.chinaSetUp = function(){
 	$("#chinaSetUp" ).click(function() {
 		$('#headerStart').val("");
 		$('#dataStart').val("\\n");
@@ -204,7 +210,7 @@ function chinaSetUp(){
 }
 
 
-function tabSetUp(){
+this.tabSetUp = function(){
 	$("#tabSetUp" ).click(function() {
 		$('#headerStart').val("");
 		$('#dataStart').val("\\n");
@@ -226,7 +232,7 @@ function tabSetUp(){
 //
 //
 //
-function csvSetUp(){
+this.csvSetUp = function(){
 	$("#csvSetUp" ).click(function() {
 		$('#headerStart').val("");
 		$('#dataStart').val("\\n");
@@ -291,7 +297,7 @@ var onSearchComplete =  function (data, requestStatus) {
 
    // Decide which fields are to be placed in which part of the KML.
    // Split the header from the data and process each record in turn.
-   function doSplit (){
+   this.doSplit = function (){
 
 	var dataInput = $('#dataInput').val();
 
@@ -314,8 +320,8 @@ var onSearchComplete =  function (data, requestStatus) {
 	} else {
 		rGeoFields = "";
 	}
-	
-	
+
+
 
 	// Each of these address strategies will be tried in turn.
 	addressFields.push($('#addressAttempt1').val().split(fieldSep));
@@ -359,7 +365,7 @@ var onSearchComplete =  function (data, requestStatus) {
 }
 // Obtains the Longitude and Latitude of the next record
 // Based upon the data in the chosen fields of that recod.
-function doNextGeoCode(){
+this.doNextGeoCode = function(){
 
 	if (currentRecord < rows.length){
 
@@ -372,9 +378,9 @@ function doNextGeoCode(){
 		styleURL = getFieldsFromDefinition(styleURLFields, headers, row);
 
 
-		
+
 		if (rGeoFields != "") {
-			
+
 			var lat = getFieldsFromDefinition(rGeoFields.latitude, headers, row );
 			var lng = getFieldsFromDefinition(rGeoFields.longitude, headers, row );
 			if (lat != "" && lng != "" ){
@@ -392,10 +398,10 @@ function doNextGeoCode(){
 						currentRecord++;
 				}
 				doNextGeoCode();
-			
+
 			}
-			
-			
+
+
 		}else if (address != "" ){
 			// Assuming we have an address to try, we should geocode it.
 			nokia.places.search.manager.geoCode({
@@ -423,7 +429,7 @@ function doNextGeoCode(){
 	}
  }
 
-function splitAndTrimFields( source, fieldSep){
+this.splitAndTrimFields = function( source, fieldSep){
 	var fields = new Array();
 	source = source.replace("\t", "\\t").replace("\t", "\\t");
 	rawFields = source.split(fieldSep);
@@ -435,7 +441,7 @@ function splitAndTrimFields( source, fieldSep){
 	return fields;
 }
 
-function getFieldsFromDefinition(definition, headerFields, dataRecord ){
+this.getFieldsFromDefinition = function(definition, headerFields, dataRecord ){
 	var result = "";
 	for (var defFieldCount = 0; defFieldCount <  definition.length ; defFieldCount++){
 		for (var headerFieldCount = 0; headerFieldCount <  headerFields.length ; headerFieldCount++){
@@ -460,7 +466,7 @@ function getFieldsFromDefinition(definition, headerFields, dataRecord ){
 }
 
 /* Adds a new marker to the map, with additional functionality based on the edit box data. */
-function addMarker(markerData) {
+this.addMarker = function(markerData) {
 
 	if (markerData.title === undefined){
 		markerData.title = "";
@@ -472,7 +478,9 @@ function addMarker(markerData) {
 	});
 
 	// When the marker is clicked,show Infobubble.
-	marker.addListener("click" ,  function(evt) {
+	var TOUCH = nokia.maps.dom.Page.browser.touch,
+		CLICK = TOUCH ? "tap" : "click";
+	marker.addListener(CLICK,  function(evt) {
 		if ( evt.target.$data.description != ""){
 			infoBubbles.openBubble(evt.target.$data.description, evt.target.coordinate);
 		} else {
@@ -482,13 +490,8 @@ function addMarker(markerData) {
 
 	map.objects.add(marker);
 }
-
-
-
-</script>
-<script type="text/javascript" src="libs/prettyprint.js"
-	id="HereMapsPrettyPrint" /*This identifies the Loader Script */
-	data-display-functions="loadKMLFile,onKMLParsed">
+}
+//]]>
 </script>
 </body>
 </html>
